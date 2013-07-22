@@ -6,8 +6,12 @@ ini_set('display_errors','On');
 <html>
 <head>
 	<title>Ultimate Tic Tac Toe</title>
+	<link rel="text/css" href="fontello-f3ec6649/fontello.css"></link>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<style>
+		i{
+			font-size:20px;
+		}
 		@media (min-width: 576px ) {
 			body table{
 				width: 576px;
@@ -74,7 +78,7 @@ ini_set('display_errors','On');
 					for($y = 0; $y < 3; $y++){
 						$markup = $markup . "<tr>\n";
 						for($z = 0; $z < 3; $z++){
-							$markup = $markup . "<td data-clicked=\"no\" data-cellId=\"".$count."\"></td>";
+							$markup = $markup . "<td data-owned=\"no\" data-clicked=\"no\" data-cellId=\"".$count."\"></td>";
 							$count++;
 						}
 						$markup = $markup . "</tr>\n";
@@ -94,6 +98,42 @@ ini_set('display_errors','On');
 		$('table table').css({'height':cw+'px'});
 	}
 
+	var endgame = function(arg){
+		if(arg!="no"){
+			alert(arg+" won!");
+		}
+	}
+
+	var check = function(callback){
+		var winString = "no";
+		for(var i = 0; i<9;i++){
+			var a = [];
+			for(var x = 1; x < 4; x++){
+				a[x-1] = $("td[data-cellId="+(i*9+x)+"]").attr('data-owned');
+			}
+			console.log(a);
+			console.log(a[1]!="no");
+			console.log(a[1]==a[2]);
+			console.log(a[1]==a[3]);
+			if((a[1]!="no")&&(a[0]==a[1])&&(a[0]==a[2])){
+				console.log(a);
+				console.log(winString);
+				winString = a[1];
+				break;
+			}
+			for(var x = 1; x < 4; x++){
+				a[x-1] = $("td[data-cellId="+(i*9+1+((x-1)*3))+"]").attr('data-owned');
+			}
+			if((a[1]!="no")&&(a[0]==a[1])&&(a[0]==a[2])){
+				console.log(a);
+				console.log(winString);
+				winString = a[1];
+				break;
+			}
+		}
+		callback(winString)
+	}
+
 	onresize();
 
 	$(window).resize(onresize);
@@ -101,36 +141,56 @@ ini_set('display_errors','On');
 	var red = "#F00";
 	var blue = "#00F";
 	var colors = [red,blue];
+	var teamName = ["Blue","Red"];
 	var player = 0;
 	var previous = undefined;
 	$("table table td").click(function(){
 		var clickedID = $(this).attr('data-cellId');
 		if($(this).attr('data-clicked')!='yes'){
 			if(previous != undefined){
-				if((previous%9)*9-8<clickedID&&clickedID<(previous%9)*9+1){
-					console.log((previous%9)*9-8);
-					console.log((previous%9)*9+1)
-					$(this).css("background-color",colors[player]);
-					console.log($(this));
+				var val = previous%9;
+				if(val == 0){
+					val = 9;
+				}
+				if((val)*9-9<clickedID&&clickedID<=(val)*9){
+					// if(teamName[player]==Blue){
+					// 	var innerhtml = "<i class=\"icon-cancel-1\"/>";
+					// }
+					// else{
+					// 	var innerhtml = "<i class=\"icon-record\"/>";
+					// }
+					$(this).css('background-color',colors[player]);
+					// $(this).append(innerhtml);
+					// console.log($(this));
 					player = 1-player;
 					previous = clickedID;
 					$(this).attr('data-clicked','yes');
+					$(this).attr('data-owned',teamName[player]);
 				}
 				else{
 					alert("Hey! Play by the rules!");
 				}
 			}
 			else{
-				$(this).css("background-color",colors[player]);
-				console.log($(this));
+				// if(teamName[player]=="Blue"){
+				// 	var innerhtml = "<i class=\"icon-cancel-1\"/>";
+				// }
+				// else{
+				// 	var innerhtml = "<i class=\"icon-record\"/>";
+				// }
+				// $(this).append(innerhtml);
+				$(this).css('background-color',colors[player]);
+				// console.log($(this));
 				player = 1-player;
 				previous = clickedID;
 				$(this).attr('data-clicked','yes');
+				$(this).attr('data-owned',teamName[player]);
 			}
 		}
 		else{
 			alert("Hey! That's not allowed!");
 		}
+		check(endgame);
 	});
 	</script>
 </body>
