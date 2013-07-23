@@ -5,8 +5,9 @@ ini_set('display_errors','On');
 ?>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>Ultimate Tic Tac Toe</title>
-	<link rel="text/css" href="fontello-f3ec6649/fontello.css"></link>
+	<link rel="text/css" href="css/fontello.css"></link>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<style>
 		i{
@@ -153,15 +154,14 @@ ini_set('display_errors','On');
 					val = 9;
 				}
 				if((val)*9-9<clickedID&&clickedID<=(val)*9){
-					// if(teamName[player]==Blue){
-					// 	var innerhtml = "<i class=\"icon-cancel-1\"/>";
-					// }
-					// else{
-					// 	var innerhtml = "<i class=\"icon-record\"/>";
-					// }
+					if(teamName[player]==Blue){
+						var innerhtml = "<i class=\"icon-cancel-1\"/>";
+					}
+					else{
+						var innerhtml = "<i class=\"icon-record\"/>";
+					}
+					$(this).append(innerhtml);
 					$(this).css('background-color',colors[player]);
-					// $(this).append(innerhtml);
-					// console.log($(this));
 					player = 1-player;
 					previous = clickedID;
 					$(this).attr('data-clicked','yes');
@@ -172,15 +172,14 @@ ini_set('display_errors','On');
 				}
 			}
 			else{
-				// if(teamName[player]=="Blue"){
-				// 	var innerhtml = "<i class=\"icon-cancel-1\"/>";
-				// }
-				// else{
-				// 	var innerhtml = "<i class=\"icon-record\"/>";
-				// }
-				// $(this).append(innerhtml);
+				if(teamName[player]=="Blue"){
+					var innerhtml = "<i class=\"icon-cancel-1\"/>";
+				}
+				else{
+					var innerhtml = "<i class=\"icon-record\"/>";
+				}
+				$(this).append(innerhtml);
 				$(this).css('background-color',colors[player]);
-				// console.log($(this));
 				player = 1-player;
 				previous = clickedID;
 				$(this).attr('data-clicked','yes');
