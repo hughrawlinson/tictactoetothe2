@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule manifest\.webapp manifest.php [NC,L]
